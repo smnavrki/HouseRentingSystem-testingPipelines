@@ -3,19 +3,14 @@ pipeline {
     environment {
         DOTNET_VERSION = '8.0'
     }
+
     stages {
         stage('Checkout source code') {
             steps {
                 checkout scm
             }
         }
-        stage('Setup .NET SDK') {
-            steps {
-                sh 'dotnet --version || echo "Installing .NET SDK..."'
-                // Jenkins агенти обикновено вече имат SDK инсталиран.
-                // Ако не – добави предварителна конфигурация със собствени образи или shell скрипт.
-            }
-        }
+
         stage('Restore dependencies') {
             steps {
                 script {
@@ -27,6 +22,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build application') {
             steps {
                 script {
@@ -38,6 +34,7 @@ pipeline {
                 }
             }
         }
+
         stage('Run Tests') {
             steps {
                 script {
